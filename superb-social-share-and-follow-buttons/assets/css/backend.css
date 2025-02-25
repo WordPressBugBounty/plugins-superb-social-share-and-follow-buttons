@@ -5,6 +5,7 @@
   border-left-color: #6348e7 !important;
   font-weight: 600;
 }
+
 .review-banner {
   box-shadow: 0px 5px 15px rgb(0 0 0 / 8%);
   padding: 3px 20px;
@@ -13,12 +14,15 @@
   background: #fff;
   max-width: 660px;
 }
+
 .review-banner p {
   font-size: 14px;
 }
+
 #spbsm-save-btn {
   cursor: pointer;
 }
+
 #spbsm-save-btn:disabled {
   cursor: auto;
 }
@@ -29,9 +33,11 @@
   font-size: 15px;
   margin-top: 5px;
 }
+
 #spbsm-save-msg.success {
   color: #234d20 !important;
 }
+
 .view-premium-topright,
 .view-premium-topright:hover,
 .view-premium-topright:active,
@@ -50,6 +56,7 @@
   right: 20px;
   transition: 0.2s all;
 }
+
 .view-premium-topright:hover {
   background: #02a577;
 }
@@ -63,6 +70,7 @@
   width: 100%;
   position: relative;
 }
+
 h1,
 h2,
 h3,
@@ -71,6 +79,7 @@ h5,
 h6 {
   line-height: 140%;
 }
+
 .spbsm-outer-wrapper h1 span {
   display: block;
   font-size: 15px;
@@ -79,17 +88,21 @@ h6 {
   font-weight: 400;
   text-transform: uppercase;
 }
+
 .spbsm-button-design-preview {
   width: 100%;
 }
+
 .spbsm-button-design-preview td {
   position: relative;
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 table small {
   color: #8c8c8c;
 }
+
 .spbsm-button-design-preview td label {
   position: absolute;
   z-index: 5;
@@ -99,14 +112,21 @@ table small {
   bottom: 0;
   width: 100%;
 }
+
 .spbsm-outer-wrapper h1 {
   font-size: 30px;
   font-weight: 600;
   margin-top: 40px;
 }
 
+.premium-section-only-inner {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+}
+
 .premium-section-only-box {
-  position: fixed;
+  position: absolute;
   top: 50% !important;
   transform: translate(0, -50%) !important;
   text-align: center;
@@ -119,13 +139,16 @@ table small {
   font-weight: 400;
   color: #000;
 }
+
 .premium-section-only-box p {
   margin: 0;
   color: #888;
 }
+
 .premium-section-only-box h3 {
   margin: 0;
 }
+
 .tab-premiumfeature {
   font-size: 12px;
   background: #6448e7;
@@ -135,6 +158,7 @@ table small {
   position: relative;
   border-radius: 30px;
 }
+
 .tab-premiumfeature:after {
   right: 99%;
   top: 50%;
@@ -149,6 +173,7 @@ table small {
   border-width: 5px;
   margin-top: -5px;
 }
+
 .button-simple {
   background: #44da6b;
   color: #fff;
@@ -159,6 +184,7 @@ table small {
   margin: 20px auto 0 auto;
   border-radius: 30px;
 }
+
 .premium-section-only:hover .premium-section-only-box {
   display: block;
 }
@@ -167,13 +193,16 @@ table small {
   filter: brightness(80%);
   opacity: 1;
 }
+
 .spbsm-outer-wrapper h2 {
   font-size: 19px;
   margin-bottom: -5px;
 }
+
 .premium-section-only {
   position: relative;
 }
+
 .premium-section-only img {
   opacity: 0.5;
 }
@@ -182,6 +211,7 @@ table small {
   width: 100%;
   max-width: 700px;
 }
+
 .short-code-container-inner {
   display: inline-flex;
   background: #fff;
@@ -189,56 +219,69 @@ table small {
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
   margin: 10px 0 0;
 }
+
 .short-code-container-inner span {
   padding: 10px;
   font-size: 13px;
 }
+
 .short-code-text {
   border-right: 1px solid #eee;
   background: #6448e7;
   color: #fff;
   font-weight: 600;
 }
+
 .short-code-container-inner .short-code-result {
   padding: 10px 20px;
   user-select: all;
   cursor: pointer;
 }
+
 td {
   font-size: 15px;
   padding: 5px 0;
 }
+
 td:first-of-type {
   padding-right: 20px;
 }
+
 hr {
   margin: 35px 0;
 }
+
 .save-wrapper {
   background: #fff;
   padding: 20px;
 }
+
 .save-wrapper {
   background: #fff;
   padding: 20px;
   margin-top: 1px;
 }
+
 .spbsm-follow-wrapper {
   width: 100%;
   margin-top: 15px;
 }
+
 .spbsm-follow-wrapper tr td:first-of-type {
   text-transform: capitalize;
 }
+
 .spbsm-follow-wrapper th {
   text-align: left;
   font-size: 15px;
   border-bottom: 1px solid #eee;
   padding-bottom: 6px;
 }
+
 table.spbsm-follow-wrapper tr:nth-of-type(1) td {
   padding-top: 15px;
 }
+
 .spbsm-follow-wrapper input[type="text"] {
   width: 90%;
   border: 1px solid #dadada;
@@ -247,6 +290,7 @@ table.spbsm-follow-wrapper tr:nth-of-type(1) td {
   border-bottom: 2px solid #dadada;
   border-radius: 3px;
 }
+
 input#spbsm-save-btn {
   padding: 12px 20px;
   text-transform: uppercase;
@@ -262,6 +306,7 @@ input#spbsm-save-btn {
   background-color: #00bc87;
   letter-spacing: 0.5px;
 }
+
 .headline-description {
   font-size: 15px;
   margin-bottom: 10px;
@@ -275,6 +320,7 @@ input#spbsm-save-btn {
   padding-top: 10px;
   display: none;
 }
+
 .spbsm-form-tab-wrapper .spbsm-tabs-label {
   font-weight: bold;
   font-size: 16px;
@@ -286,15 +332,17 @@ input#spbsm-save-btn {
 .spbsm-form-tab-wrapper .spbsm-tabs-label:hover {
   cursor: pointer;
 }
-.spbsm-form-tab-wrapper #tab1:checked ~ #content1,
-.spbsm-form-tab-wrapper #tab2:checked ~ #content2,
-.spbsm-form-tab-wrapper #tab3:checked ~ #content3,
-.spbsm-form-tab-wrapper #tab4:checked ~ #content4 {
+
+.spbsm-form-tab-wrapper #tab1:checked~#content1,
+.spbsm-form-tab-wrapper #tab2:checked~#content2,
+.spbsm-form-tab-wrapper #tab3:checked~#content3,
+.spbsm-form-tab-wrapper #tab4:checked~#content4 {
   background: #fff;
   display: block;
   padding: 20px;
 }
-.spbsm-tabs-input:checked + .spbsm-tabs-label {
+
+.spbsm-tabs-input:checked+.spbsm-tabs-label {
   border-top-color: #6448e7;
   border-bottom-color: transparent;
   background: #fff;
@@ -317,93 +365,123 @@ input#spbsm-save-btn {
 .spbsm-follow-item .twitter:after {
   background-image: url(../img/x-logo.svg);
 }
+
 .spbsm-follow-item .facebook:after {
   background-image: url(../img/facebook-letter-logo.svg);
 }
+
 .spbsm-follow-item .instagram:after {
   background-image: url(../img/instagram.svg);
 }
+
 .spbsm-follow-item .youtube:after {
   background-image: url(../img/youtube-play-button.svg);
 }
+
 .spbsm-follow-item .linkedin:after {
   background-image: url(../img/linkedin-logo.svg);
 }
+
 .spbsm-follow-item .flickr:after {
   background-image: url(../img/flickr-logo-of-two-dots.svg);
 }
+
 .spbsm-follow-item .snapchat:after {
   background-image: url(../img/snapchat.svg);
 }
+
 .spbsm-follow-item .github:after {
   background-image: url(../img/github-logo.svg);
 }
+
 .spbsm-follow-item .tumblr:after {
   background-image: url(../img/tumblr-letter-logo.svg);
 }
+
 .spbsm-follow-item .vimeo:after {
   background-image: url(../img/vimeo-logo.svg);
 }
+
 .spbsm-follow-item .foursquare:after {
   background-image: url(../img/foursquare.svg);
 }
+
 .spbsm-follow-item .behance:after {
   background-image: url(../img/behance-logo.svg);
 }
+
 .spbsm-follow-item .medium:after {
   background-image: url(../img/medium-size.svg);
 }
+
 .spbsm-follow-item .reddit:after {
   background-image: url(../img/reddit.svg);
 }
+
 .spbsm-follow-item .dribbble:after {
   background-image: url(../img/dribbble.svg);
 }
+
 .spbsm-follow-item .pinterest:after {
   background-image: url(../img/pinterest.svg);
 }
+
 .spbsm-follow-item .email:after {
   background-image: url(../img/email.svg);
 }
+
 .spbsm-follow-item .twitch:after {
   background-image: url(../img/twitch.svg);
 }
+
 .spbsm-follow-item .whatsapp:after {
   background-image: url(../img/whatsapp-logo.svg);
 }
+
 .spbsm-follow-item .spotify:after {
   background-image: url(../img/spotify-logo.svg);
 }
+
 .spbsm-follow-item .bandcamp:after {
   background-image: url(../img/bandcamp-logo.svg);
 }
+
 .spbsm-follow-item .applemusic:after {
   background-image: url(../img/applemusic-logo.svg);
 }
+
 .spbsm-follow-item .applepodcasts:after {
   background-image: url(../img/applepodcast-logo.svg);
 }
+
 .spbsm-follow-item .applebooks:after {
   background-image: url(../img/apple-books-logo.svg);
 }
+
 .spbsm-follow-item .appstore:after {
   background-image: url(../img/apple-app-store-logo.svg);
 }
+
 .spbsm-follow-item .googleplay:after {
   background-image: url(../img/google-play-logo.svg);
 }
+
 .spbsm-follow-item .tiktok:after {
   background-image: url(../img/tik-tok.svg);
 }
+
 .spbsm-follow-item .telegram:after {
   background-image: url(../img/telegram_logo.svg);
 }
+
 .spbsm-follow-item .mastodon:after {
   background-image: url(../img/mastodon.svg);
 }
+
 .spbsm-follow-item .goodreads:after {
   background-image: url(../img/goodreads.svg);
 }
+
 .spbsm-follow-item .threads:after {
   background-image: url(../img/threads-logo.svg);
 }
@@ -478,6 +556,7 @@ input#spbsm-save-btn {
     right: -270px;
     padding: 25px;
   }
+
   .spbsm_discount a {
     margin: 30px auto 0;
   }

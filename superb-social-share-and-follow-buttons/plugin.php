@@ -18,8 +18,6 @@ final class spbsm
     private $urlErrorResponse;
     private $sidebarErrorResponse;
     private $queueErrorResponse;
-    private $designErrorResponse;
-    private $colorErrorResponse;
     private $genericErrorResponse;
 
     private static $instance;
@@ -43,7 +41,6 @@ final class spbsm
         if (get_option('spbsm_db_version') != $this->db->db_version) {
             $this->initialize();
         }
-        add_action('init', array($this, 'spbsm_load_textdomain'));
         add_action('admin_menu', array($this, 'add_menu_items'));
         add_action('admin_enqueue_scripts', array($this, 'backend_enqueue'));
         add_action('wp_enqueue_scripts', array($this, 'frontend_enqueue'));
@@ -55,6 +52,11 @@ final class spbsm
         $this->pluginNameComment = '<!-- Superb Social Share and Follow Buttons -->';
         $this->localizeStrings();
         add_action('admin_init', array($this, 'spbsm_spbThemesNotification'), 9);
+
+        if (is_admin() && !class_exists('SuperbThemes\AddonsRecommender\NoticeController')) {
+            require_once $this->base_dir . '/recommender/recommender.php';
+            \SuperbThemes\AddonsRecommender\NoticeController::init();
+        }
     }
     public function spbsm_spbThemesNotification()
     {
@@ -73,11 +75,6 @@ final class spbsm
         $notifications->Boot();
     }
 
-    public function spbsm_load_textdomain()
-    {
-        load_plugin_textdomain('spbsm', false, dirname($this->plugin_base) . '/languages');
-    }
-
     private function localizeStrings()
     {
         $this->localizeFront();
@@ -86,18 +83,16 @@ final class spbsm
 
     private function localizeFront()
     {
-        $this->defaultFollowText = esc_html__("Follow us on Social Media", 'spbsm');
-        $this->defaultShareText = esc_html__("Share on Social Media", 'spbsm');
+        $this->defaultFollowText = esc_html__("Follow us on Social Media", 'superb-social-share-and-follow-buttons');
+        $this->defaultShareText = esc_html__("Share on Social Media", 'superb-social-share-and-follow-buttons');
     }
 
     private function localizeBack()
     {
-        $this->queueErrorResponse =  esc_html__("Couldn't save settings. Order data invalid.", 'spbsm');
-        $this->urlErrorResponse =  esc_html__("Couldn't save settings. Profile link should be https.", 'spbsm');
-        $this->sidebarErrorResponse =  esc_html__("Couldn't save settings. Sidebar setting invalid.", 'spbsm');
-        $this->designErrorResponse = esc_html__("Couldn't save settings. Selected button design is invalid.", 'spbsm');
-        $this->colorErrorResponse = esc_html__("Couldn't save settings. A selected color is not a valid color.", 'spbsm');
-        $this->genericErrorResponse = esc_html__("Couldn't save settings. Data invalid.", 'spbsm');
+        $this->queueErrorResponse =  esc_html__("Couldn't save settings. Order data invalid.", 'superb-social-share-and-follow-buttons');
+        $this->urlErrorResponse =  esc_html__("Couldn't save settings. Profile link should be https.", 'superb-social-share-and-follow-buttons');
+        $this->sidebarErrorResponse =  esc_html__("Couldn't save settings. Sidebar setting invalid.", 'superb-social-share-and-follow-buttons');
+        $this->genericErrorResponse = esc_html__("Couldn't save settings. Data invalid.", 'superb-social-share-and-follow-buttons');
     }
 
     public function plugin_row_meta($row_meta, $file)
@@ -127,15 +122,15 @@ final class spbsm
         if ($hook == $this->page_hook_s || $hook == $this->page_hook_f) {
             wp_enqueue_style('spbsm-backend', $this->base_url . '/assets/css/backend.css', false, $this->version, 'all');
             $this->frontend_enqueue();
-            wp_enqueue_script('spbsm-tablednd', $this->base_url . '/js/jquery.tablednd.js');
-            wp_enqueue_script('spbsm-script', $this->base_url . '/js/backend.js', array('jquery', 'wp-color-picker'), $this->version);
+            wp_enqueue_script('spbsm-tablednd', $this->base_url . '/js/jquery.tablednd.js', array('jquery'), $this->version, true);
+            wp_enqueue_script('spbsm-script', $this->base_url . '/js/backend.js', array('jquery', 'wp-color-picker'), $this->version, true);
             wp_enqueue_style('wp-color-picker');
             wp_localize_script('spbsm-script', 'msgs', array(
-                'alreadySaved'  => esc_html__("Current settings already saved..", 'spbsm'),
-                'error' => esc_html__("Couldn't save settings..", 'spbsm'),
-                'fieldErrorMultiple' => esc_html__("fields are not valid profile links..", 'spbsm'),
-                'fieldErrorSingle' => esc_html__("field is not a valid profile link..", 'spbsm'),
-                'fieldErrorExpected' => esc_html__(" Expected https://(site).com/(profile) or similar.", 'spbsm'),
+                'alreadySaved'  => esc_html__("Current settings already saved..", 'superb-social-share-and-follow-buttons'),
+                'error' => esc_html__("Couldn't save settings..", 'superb-social-share-and-follow-buttons'),
+                'fieldErrorMultiple' => esc_html__("fields are not valid profile links..", 'superb-social-share-and-follow-buttons'),
+                'fieldErrorSingle' => esc_html__("field is not a valid profile link..", 'superb-social-share-and-follow-buttons'),
+                'fieldErrorExpected' => esc_html__(" Expected https://(site).com/(profile) or similar.", 'superb-social-share-and-follow-buttons'),
             ));
         }
     }
@@ -148,344 +143,429 @@ final class spbsm
 
     private function review_banner()
     {
-?><div class="review-banner">
+?>
+        <div class="review-banner">
             <p><span>&#128075;</span> Hi there! We sincerely hope you're enjoying our superb social media buttons plugin. Please consider <a href="https://wordpress.org/support/plugin/superb-social-share-and-follow-buttons/reviews/" target="_blank">reviewing it here</a>. It means the world to us!</p>
-        </div><?php
+        </div>
+<?php
+    }
+
+    public function backend_share()
+    {
+        $this->review_banner();
+        include_once $this->base_dir . "/inc/backend_share.php";
+    }
+
+    public function backend_follow()
+    {
+        $this->review_banner();
+        include_once $this->base_dir . "/inc/backend_follow.php";
+    }
+
+    public function frontend_share()
+    {
+        $this->localizeFront();
+        $buttons = $this->db->getShareButtons();
+        if ($buttons) {
+            $permlink = get_permalink();
+            $permlink = isset($permlink) && !empty($permlink) ? $permlink : get_home_url();
+            $title = get_the_title();
+            $title = isset($title) && !empty($title) ? $title : get_bloginfo("name");
+            $logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'));
+            $logo = (isset($logo) && !empty($logo) && $logo !== false && is_array($logo)) ? $logo[0] : '';
+            $thumb = get_the_post_thumbnail_url();
+            $thumb = isset($thumb) && !empty($thumb) ? $thumb : $logo;
+            $excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', get_the_ID()));
+            $excerpt = isset($excerpt) && !empty($excerpt) ? $excerpt : get_bloginfo("description");
+            ob_start();
+            echo '<div class="spbsm-sharebuttons-output-wrapper">';
+            echo wp_kses_post($this->pluginNameComment);
+            echo '<div class="spbsm-output-textstring">' . esc_attr($this->defaultShareText) . '</div>';
+            echo '<div class="spbsm-button-wrapper-flat">';
+            foreach ($buttons as &$button) {
+                $name = isset($button['alt-name']) ? $button['alt-name'] : $button['class'];
+                $link = str_replace(
+                    array('{url}', '{title}', '{img}', '{description}'),
+                    array(esc_url($permlink), urlencode($title), $thumb, urlencode($excerpt)),
+                    $button['share']
+                );
+                echo '<span class="spbsm-share-' . esc_attr($button['class']) . '"><a href="' . esc_url($link) . '" rel="nofollow" target="_blank">' . wp_kses($button['icon'], $this->getAllowedHTML());
+                echo esc_attr($name);
+                echo '</a></span>';
+            }
+            echo '</div></div>';
+            return ob_get_clean();
+        }
+        return "";
+    }
+
+    private function getAllowedHTML()
+    {
+        return array(
+            'svg' => array(
+                'xmlns' => true,
+                'width' => true,
+                'height' => true,
+                'viewbox' => true,
+                'fill' => true,
+                'xmlns:xlink' => true,
+                'xml:space' => true,
+                'role' => true,
+                'aria-hidden' => true,
+                'focusable' => true,
+                'class' => true,
+                'style' => true,
+                'enable-background' => true,
+                'image-rendering' => true,
+                'preserveAspectRatio' => true,
+                'shape-rendering' => true,
+                'text-rendering' => true,
+                'version' => true,
+                'fill-rule' => true,
+                'clip-rule' => true,
+                'aria-label' => true,
+                'role' => true,
+                'xml:space' => true,
+                'xmlns:svg' => true,
+                'xmlns:xlink' => true,
+                'x' => true,
+                'y' => true
+            ),
+            'path' => array(
+                'd' => true,
+                'fill' => true,
+                'transform' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'fill-rule' => true
+            ),
+            'g' => array(
+                'fill' => true,
+                'transform' => true,
+                'stroke' => true,
+                'stroke-width' => true
+            ),
+            'polygon' => array(
+                'points' => true,
+                'fill' => true,
+                'transform' => true
+            ),
+            'circle' => array(
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fill' => true,
+                'transform' => true,
+                'stroke' => true,
+                'stroke-width' => true
+            ),
+            'rect' => array(
+                'x' => true,
+                'y' => true,
+                'width' => true,
+                'height' => true,
+                'transform' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true
+            )
+        );
+    }
+
+    public function frontend_follow()
+    {
+        $this->localizeFront();
+        $buttons = $this->db->getFollowButtons();
+        if ($buttons) {
+            ob_start();
+            echo '<div class="spbsm-followbuttons-output-wrapper">';
+            echo wp_kses_post($this->pluginNameComment);
+            echo '<div class="spbsm-output-textstring">' . esc_attr($this->defaultFollowText) . '</div>';
+            echo '<div class="spbsm-button-wrapper-flat">';
+            foreach ($buttons as &$button) {
+                if ($button['class'] == 'email') {
+                    continue;
+                }
+                $name = isset($button['alt-name']) ? $button['alt-name'] : $button['class'];
+                echo '<span class="spbsm-follow-' . esc_attr($button['class']) . '"><a href="' . esc_url($button['follow_url']) . '" rel="nofollow" target="_blank">' . wp_kses($button['icon'], $this->getAllowedHTML());
+                echo esc_html($name);
+                echo '</a></span>';
+            }
+            echo '</div></div>';
+            return ob_get_clean();
+        }
+        return "";
+    }
+
+    public function setPositionSettingFilters()
+    {
+        add_filter('the_content', array($this, 'addToContent'));
+        add_filter('wp_footer', array($this, 'addSidebar'));
+    }
+
+    public function addToContent($content)
+    {
+        if (!is_single() && !is_page()) {
+            return $content;
+        }
+        $prepend = "";
+        $append = "";
+        $scShare = null;
+        $scFollow = null;
+        $shareSettings = $this->db->get_positionSettings(1);
+        $followSettings = $this->db->get_positionSettings(2);
+        if (
+            $shareSettings['posts_addAtStart'] == 1 || $shareSettings['posts_addAtEnd'] == 1 ||
+            $shareSettings['pages_addAtStart'] == 1 || $shareSettings['pages_addAtEnd'] == 1
+        ) {
+            $scShare = do_shortcode('[spbsm-share-buttons]');
+        }
+
+        if (
+            $followSettings['posts_addAtStart'] == 1 || $followSettings['posts_addAtEnd'] == 1 ||
+            $followSettings['pages_addAtStart'] == 1 || $followSettings['pages_addAtEnd'] == 1
+        ) {
+            $scFollow = do_shortcode('[spbsm-follow-buttons]');
+        }
+
+        if (is_null($scFollow) && is_null($scShare)) {
+            return $content;
+        }
+
+        if (is_single()) {
+            if ($shareSettings['posts_addAtStart'] == 1) {
+                $prepend .= $scShare;
+            }
+            if ($shareSettings['posts_addAtEnd'] == 1) {
+                $append .= $scShare;
             }
 
-            public function backend_share()
-            {
-                $this->review_banner();
-                include_once $this->base_dir . "/inc/backend_share.php";
+            if ($followSettings['posts_addAtStart'] == 1) {
+                $prepend .= $scFollow;
+            }
+            if ($followSettings['posts_addAtEnd'] == 1) {
+                $append .= $scFollow;
+            }
+        } else {
+            if ($shareSettings['pages_addAtStart'] == 1) {
+                $prepend .= $scShare;
+            }
+            if ($shareSettings['pages_addAtEnd'] == 1) {
+                $append .= $scShare;
             }
 
-            public function backend_follow()
-            {
-                $this->review_banner();
-                include_once $this->base_dir . "/inc/backend_follow.php";
+            if ($followSettings['pages_addAtStart'] == 1) {
+                $prepend .= $scFollow;
             }
-
-            public function frontend_share()
-            {
-                $this->localizeFront();
-                $buttons = $this->db->getShareButtons();
-                if ($buttons) {
-                    $permlink = get_permalink();
-                    $permlink = isset($permlink) && !empty($permlink) ? $permlink : get_home_url();
-                    $title = get_the_title();
-                    $title = isset($title) && !empty($title) ? $title : get_bloginfo("name");
-                    $logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'));
-                    $logo = (isset($logo) && !empty($logo) && $logo !== false && is_array($logo)) ? $logo[0] : '';
-                    $thumb = get_the_post_thumbnail_url();
-                    $thumb = isset($thumb) && !empty($thumb) ? $thumb : $logo;
-                    $excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', get_the_ID()));
-                    $excerpt = isset($excerpt) && !empty($excerpt) ? $excerpt : get_bloginfo("description");
-                    ob_start();
-                    echo '<div class="spbsm-sharebuttons-output-wrapper">';
-                    echo $this->pluginNameComment;
-                    echo '<div class="spbsm-output-textstring">' . esc_attr($this->defaultShareText) . '</div>';
-                    echo '<div class="spbsm-button-wrapper-flat">';
-                    foreach ($buttons as &$button) {
-                        $name = isset($button['alt-name']) ? $button['alt-name'] : $button['class'];
-                        $link = str_replace(
-                            array('{url}', '{title}', '{img}', '{description}'),
-                            array(esc_url($permlink), urlencode($title), $thumb, urlencode($excerpt)),
-                            $button['share']
-                        );
-                        echo '<span class="spbsm-share-' . esc_attr($button['class']) . '"><a href="' . esc_url($link) . '" rel="nofollow" target="_blank">' . $button['icon'];
-                        echo esc_attr($name);
-                        echo '</a></span>';
-                    }
-                    echo '</div></div>';
-                    return ob_get_clean();
-                }
-                return "";
-            }
-
-            public function frontend_follow()
-            {
-                $this->localizeFront();
-                $buttons = $this->db->getFollowButtons();
-                if ($buttons) {
-                    ob_start();
-                    echo '<div class="spbsm-followbuttons-output-wrapper">';
-                    echo $this->pluginNameComment;
-                    echo '<div class="spbsm-output-textstring">' . esc_attr($this->defaultFollowText) . '</div>';
-                    echo '<div class="spbsm-button-wrapper-flat">';
-                    foreach ($buttons as &$button) {
-                        if ($button['class'] == 'email') {
-                            continue;
-                        }
-                        $name = isset($button['alt-name']) ? $button['alt-name'] : $button['class'];
-                        echo '<span class="spbsm-follow-' . esc_attr($button['class']) . '"><a href="' . esc_url($button['follow_url']) . '" rel="nofollow" target="_blank">' . $button['icon'];
-                        echo esc_html($name);
-                        echo '</a></span>';
-                    }
-                    echo '</div></div>';
-                    return ob_get_clean();
-                }
-                return "";
-            }
-
-            public function setPositionSettingFilters()
-            {
-                add_filter('the_content', array($this, 'addToContent'));
-                add_filter('wp_footer', array($this, 'addSidebar'));
-            }
-
-            public function addToContent($content)
-            {
-                if (!is_single() && !is_page()) {
-                    return $content;
-                }
-                $prepend = "";
-                $append = "";
-                $scShare = null;
-                $scFollow = null;
-                $shareSettings = $this->db->get_positionSettings(1);
-                $followSettings = $this->db->get_positionSettings(2);
-                if (
-                    $shareSettings['posts_addAtStart'] == 1 || $shareSettings['posts_addAtEnd'] == 1 ||
-                    $shareSettings['pages_addAtStart'] == 1 || $shareSettings['pages_addAtEnd'] == 1
-                ) {
-                    $scShare = do_shortcode('[spbsm-share-buttons]');
-                }
-
-                if (
-                    $followSettings['posts_addAtStart'] == 1 || $followSettings['posts_addAtEnd'] == 1 ||
-                    $followSettings['pages_addAtStart'] == 1 || $followSettings['pages_addAtEnd'] == 1
-                ) {
-                    $scFollow = do_shortcode('[spbsm-follow-buttons]');
-                }
-
-                if (is_null($scFollow) && is_null($scShare)) {
-                    return $content;
-                }
-
-                if (is_single()) {
-                    if ($shareSettings['posts_addAtStart'] == 1) {
-                        $prepend .= $scShare;
-                    }
-                    if ($shareSettings['posts_addAtEnd'] == 1) {
-                        $append .= $scShare;
-                    }
-
-                    if ($followSettings['posts_addAtStart'] == 1) {
-                        $prepend .= $scFollow;
-                    }
-                    if ($followSettings['posts_addAtEnd'] == 1) {
-                        $append .= $scFollow;
-                    }
-                } else {
-                    if ($shareSettings['pages_addAtStart'] == 1) {
-                        $prepend .= $scShare;
-                    }
-                    if ($shareSettings['pages_addAtEnd'] == 1) {
-                        $append .= $scShare;
-                    }
-
-                    if ($followSettings['pages_addAtStart'] == 1) {
-                        $prepend .= $scFollow;
-                    }
-                    if ($followSettings['pages_addAtEnd'] == 1) {
-                        $append .= $scFollow;
-                    }
-                }
-
-                return $prepend . $content . $append;
-            }
-
-            public function addSidebar()
-            {
-                $settings = $this->db->getSidebarSettings();
-                if ($settings) {
-                    if ($settings[0]['sidebar'] == $settings[1]['sidebar']) {
-                        $hide = $settings[0]['hide'] == 1 || $settings[1]['hide'] == 1 ? ' spbsm-hideonmobile' : '';
-                        $class = 'spbsm-sidebar-wrapper';
-                        if ($settings[0]['sidebar'] == 1) {
-                            $class .= '-leftcenter';
-                        }
-                        if ($settings[0]['sidebar'] == 2) {
-                            $class .= '-rightcenter';
-                        }
-                        if ($settings[0]['sidebar'] == 3) {
-                            $class .= '-bottomright';
-                        }
-                        if ($settings[0]['sidebar'] == 4) {
-                            $class .= '-bottomleft';
-                        }
-                        echo '<div class="spbsm-sidebar-wrapper ' . $class . $hide . '">';
-                        echo do_shortcode('[spbsm-share-buttons]');
-                        echo do_shortcode('[spbsm-follow-buttons]');
-                        echo '</div>';
-                    } else {
-                        if ($settings[0]['sidebar'] > 0) {
-                            $hide = $settings[0]['hide'] == 1 ? ' spbsm-hideonmobile' : '';
-                            $class = 'spbsm-sidebar-wrapper';
-                            if ($settings[0]['sidebar'] == 1) {
-                                $class .= '-leftcenter';
-                            }
-                            if ($settings[0]['sidebar'] == 2) {
-                                $class .= '-rightcenter';
-                            }
-                            if ($settings[0]['sidebar'] == 3) {
-                                $class .= '-bottomright';
-                            }
-                            if ($settings[0]['sidebar'] == 4) {
-                                $class .= '-bottomleft';
-                            }
-                            echo '<div class="spbsm-sidebar-wrapper ' . $class . $hide . '">';
-                            echo do_shortcode('[spbsm-share-buttons]');
-                            echo '</div>';
-                        }
-                        if ($settings[1]['sidebar'] > 0) {
-                            $hide = $settings[1]['hide'] == 1 ? ' spbsm-hideonmobile' : '';
-                            $class = 'spbsm-sidebar-wrapper';
-                            if ($settings[1]['sidebar'] == 1) {
-                                $class .= '-leftcenter';
-                            }
-                            if ($settings[1]['sidebar'] == 2) {
-                                $class .= '-rightcenter';
-                            }
-                            if ($settings[1]['sidebar'] == 3) {
-                                $class .= '-bottomright';
-                            }
-                            if ($settings[1]['sidebar'] == 4) {
-                                $class .= '-bottomleft';
-                            }
-                            echo '<div class="spbsm-sidebar-wrapper ' . $class . $hide . '">';
-                            echo do_shortcode('[spbsm-follow-buttons]');
-                            echo '</div>';
-                        }
-                    }
-                }
-            }
-
-            public function spbsmAjax()
-            {
-                if (!isset($_POST['cmd']) || !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], "spbsm_submit") || !check_ajax_referer("spbsm_submit", "nonce") || !current_user_can($this->user_caps)) {
-                    wp_send_json(array('type' => 'error', 'msg' => $this->genericErrorResponse));
-                    exit();
-                }
-                $result = array();
-                try {
-                    switch ($_POST['cmd']) {
-                        case 'save':
-                            $form = array();
-                            parse_str($_POST['form'], $form);
-                            $sanitizedDto = $this->sanitize_form($form);
-                            if (!isset($sanitizedDto) || ($_POST['page'] != 'follow' && $_POST['page'] != 'share')) {
-                                throw new Exception($this->genericErrorResponse);
-                            }
-                            $response = $_POST['page'] == 'share' ? $this->db->update_share($sanitizedDto) : $this->db->update_follow($sanitizedDto);
-                            $result['type'] = $response[0];
-                            $result['msg'] = $response[1];
-                            break;
-
-                        default:
-                            $result['type'] = "error";
-                            $result['result'] = "invalid cmd";
-                            break;
-                    }
-                } catch (Exception $ex) {
-                    $result['type'] = 'error';
-                    $result['msg'] = $ex->getMessage();
-                }
-                wp_send_json($result);
-            }
-
-
-            ///sanitize user input
-            private function sanitize_form($form)
-            {
-                try {
-                    //create Dto
-                    $sanitized = array();
-                    foreach ($form as $key => &$value) {
-                        $key = esc_sql(sanitize_text_field($key));
-                        switch ($key) {
-                            case 'floatingSidebar':
-                                $sanitized['floatingSidebar'] = $this->sanitize($form['floatingSidebar'], 'sidebar');
-                                break;
-                            case 'general':
-                                foreach ($form['general'] as $key => $value) {
-                                    $sanitized['general'][esc_sql(sanitize_text_field($key))] = $this->sanitize($value, 'bit');
-                                }
-                                break;
-                            case '_wpnonce':
-                            case '_wp_http_referer':
-                            case 'tabs':
-                                //no need to include these fields in Dto.
-                                break;
-                            default:
-                                if (isset($form[$key]['share'])) {
-                                    $sanitized[$key]['share'] = $this->sanitize($form[$key]['share'], 'bit');
-                                }
-                                if (isset($form[$key]['follow'])) {
-                                    $sanitized[$key]['follow'] = $this->sanitize($form[$key]['follow'], 'bit');
-                                }
-                                if (isset($form[$key]['follow_url'])) {
-                                    $sanitized[$key]['follow_url'] = $this->sanitize($form[$key]['follow_url'], 'url');
-                                }
-                                if (isset($form[$key]['share_queue'])) {
-                                    $sanitized[$key]['share_queue'] = $this->sanitize($form[$key]['share_queue'], 'queue');
-                                }
-                                if (isset($form[$key]['follow_queue'])) {
-                                    $sanitized[$key]['follow_queue'] = $this->sanitize($form[$key]['follow_queue'], 'queue');
-                                }
-                                break;
-                        }
-                    }
-                    return $sanitized;
-                } catch (Exception $ex) {
-                    throw new Exception($ex->getMessage());
-                }
-            }
-
-            private function sanitize($value, $type = '')
-            {
-                switch ($type) {
-                    case 'bit':
-                        return $value == 1 || $value == 'on' ? 1 : 0;
-                        break;
-
-                    case 'url':
-                        if (empty($value)) {
-                            return null;
-                        }
-                        $url = esc_url_raw($value, ['https']);
-                        if (empty($url)) {
-                            throw new Excepton($this->urlErrorResponse);
-                        }
-                        return esc_sql($url);
-                        break;
-
-                    case 'sidebar':
-                        if (!is_int(intval($value))) {
-                            throw new Exception($this->sidebarErrorResponse);
-                        }
-                        return ($value < 0 || $value > 4) ? 0 : $value;
-                        break;
-
-                    case 'queue':
-                        $queue = intval($value);
-                        if ($queue < 0 || $queue > 200) {
-                            throw new Exception($this->queueErrorResponse);
-                        }
-                        return $queue;
-                        break;
-
-                    default:
-                        return esc_sql(sanitize_text_field($value));
-                        break;
-                }
-            }
-
-
-
-
-            public function initialize()
-            {
-                $this->db->create_table();
+            if ($followSettings['pages_addAtEnd'] == 1) {
+                $append .= $scFollow;
             }
         }
+
+        return $prepend . $content . $append;
+    }
+
+    public function addSidebar()
+    {
+        $settings = $this->db->getSidebarSettings();
+        if ($settings) {
+            if ($settings[0]['sidebar'] == $settings[1]['sidebar']) {
+                $hide = $settings[0]['hide'] == 1 || $settings[1]['hide'] == 1 ? ' spbsm-hideonmobile' : '';
+                $class = 'spbsm-sidebar-wrapper';
+                if ($settings[0]['sidebar'] == 1) {
+                    $class .= '-leftcenter';
+                }
+                if ($settings[0]['sidebar'] == 2) {
+                    $class .= '-rightcenter';
+                }
+                if ($settings[0]['sidebar'] == 3) {
+                    $class .= '-bottomright';
+                }
+                if ($settings[0]['sidebar'] == 4) {
+                    $class .= '-bottomleft';
+                }
+                echo '<div class="spbsm-sidebar-wrapper ' . esc_attr($class . $hide) . '">';
+                echo do_shortcode('[spbsm-share-buttons]');
+                echo do_shortcode('[spbsm-follow-buttons]');
+                echo '</div>';
+            } else {
+                if ($settings[0]['sidebar'] > 0) {
+                    $hide = $settings[0]['hide'] == 1 ? ' spbsm-hideonmobile' : '';
+                    $class = 'spbsm-sidebar-wrapper';
+                    if ($settings[0]['sidebar'] == 1) {
+                        $class .= '-leftcenter';
+                    }
+                    if ($settings[0]['sidebar'] == 2) {
+                        $class .= '-rightcenter';
+                    }
+                    if ($settings[0]['sidebar'] == 3) {
+                        $class .= '-bottomright';
+                    }
+                    if ($settings[0]['sidebar'] == 4) {
+                        $class .= '-bottomleft';
+                    }
+                    echo '<div class="spbsm-sidebar-wrapper ' . esc_attr($class . $hide) . '">';
+                    echo do_shortcode('[spbsm-share-buttons]');
+                    echo '</div>';
+                }
+                if ($settings[1]['sidebar'] > 0) {
+                    $hide = $settings[1]['hide'] == 1 ? ' spbsm-hideonmobile' : '';
+                    $class = 'spbsm-sidebar-wrapper';
+                    if ($settings[1]['sidebar'] == 1) {
+                        $class .= '-leftcenter';
+                    }
+                    if ($settings[1]['sidebar'] == 2) {
+                        $class .= '-rightcenter';
+                    }
+                    if ($settings[1]['sidebar'] == 3) {
+                        $class .= '-bottomright';
+                    }
+                    if ($settings[1]['sidebar'] == 4) {
+                        $class .= '-bottomleft';
+                    }
+                    echo '<div class="spbsm-sidebar-wrapper ' . esc_attr($class . $hide) . '">';
+                    echo do_shortcode('[spbsm-follow-buttons]');
+                    echo '</div>';
+                }
+            }
+        }
+    }
+
+    public function spbsmAjax()
+    {
+        if (!isset($_POST['cmd']) || !isset($_POST['nonce']) || !current_user_can($this->user_caps)) {
+            wp_send_json(array('type' => 'error', 'msg' => $this->genericErrorResponse));
+            exit();
+        }
+        $nonce = sanitize_text_field(wp_unslash($_POST['nonce']));
+        if (!wp_verify_nonce($nonce, "spbsm_submit") || !check_ajax_referer("spbsm_submit", "nonce")) {
+            wp_send_json(array('type' => 'error', 'msg' => $this->genericErrorResponse));
+            exit();
+        }
+        $result = array();
+        try {
+            switch ($_POST['cmd']) {
+                case 'save':
+                    if (!isset($_POST['form']) || !isset($_POST['page'])) {
+                        throw new Exception($this->genericErrorResponse);
+                    }
+                    $form = array();
+                    $form_data = str_replace('&amp;', '&', wp_kses_post(wp_unslash($_POST['form'])));
+                    parse_str($form_data, $form);
+                    $sanitizedDto = $this->sanitize_form($form);
+                    $page = sanitize_text_field(wp_unslash($_POST['page']));
+                    if (!isset($sanitizedDto) || ($page != 'follow' && $page != 'share')) {
+                        throw new Exception($this->genericErrorResponse);
+                    }
+                    $response = $page == 'share' ? $this->db->update_share($sanitizedDto) : $this->db->update_follow($sanitizedDto);
+                    $result['type'] = $response[0];
+                    $result['msg'] = $response[1];
+                    break;
+
+                default:
+                    $result['type'] = "error";
+                    $result['result'] = "invalid cmd";
+                    break;
+            }
+        } catch (Exception $ex) {
+            $result['type'] = 'error';
+            $result['msg'] = $ex->getMessage();
+        }
+        wp_send_json($result);
+    }
+
+
+    ///sanitize user input
+    private function sanitize_form($form)
+    {
+        try {
+            //create Dto
+            $sanitized = array();
+            foreach ($form as $key => &$value) {
+                $key = esc_sql(sanitize_text_field($key));
+                switch ($key) {
+                    case 'floatingSidebar':
+                        $sanitized['floatingSidebar'] = $this->sanitize($form['floatingSidebar'], 'sidebar');
+                        break;
+                    case 'general':
+                        foreach ($form['general'] as $key => $value) {
+                            $sanitized['general'][esc_sql(sanitize_text_field($key))] = $this->sanitize($value, 'bit');
+                        }
+                        break;
+                    case '_wpnonce':
+                    case '_wp_http_referer':
+                    case 'tabs':
+                        //no need to include these fields in Dto.
+                        break;
+                    default:
+                        if (isset($form[$key]['share'])) {
+                            $sanitized[$key]['share'] = $this->sanitize($form[$key]['share'], 'bit');
+                        }
+                        if (isset($form[$key]['follow'])) {
+                            $sanitized[$key]['follow'] = $this->sanitize($form[$key]['follow'], 'bit');
+                        }
+                        if (isset($form[$key]['follow_url'])) {
+                            $sanitized[$key]['follow_url'] = $this->sanitize($form[$key]['follow_url'], 'url');
+                        }
+                        if (isset($form[$key]['share_queue'])) {
+                            $sanitized[$key]['share_queue'] = $this->sanitize($form[$key]['share_queue'], 'queue');
+                        }
+                        if (isset($form[$key]['follow_queue'])) {
+                            $sanitized[$key]['follow_queue'] = $this->sanitize($form[$key]['follow_queue'], 'queue');
+                        }
+                        break;
+                }
+            }
+            return $sanitized;
+        } catch (Exception $ex) {
+            throw new Exception(esc_html($ex->getMessage()));
+        }
+    }
+
+    private function sanitize($value, $type = '')
+    {
+        switch ($type) {
+            case 'bit':
+                return $value == 1 || $value == 'on' ? 1 : 0;
+                break;
+
+            case 'url':
+                if (empty($value)) {
+                    return null;
+                }
+                $url = esc_url_raw($value, ['https']);
+                if (empty($url)) {
+                    throw new Excepton(esc_html($this->urlErrorResponse));
+                }
+                return esc_sql($url);
+                break;
+
+            case 'sidebar':
+                if (!is_int(intval($value))) {
+                    throw new Exception(esc_html($this->sidebarErrorResponse));
+                }
+                return ($value < 0 || $value > 4) ? 0 : $value;
+                break;
+
+            case 'queue':
+                $queue = intval($value);
+                if ($queue < 0 || $queue > 200) {
+                    throw new Exception(esc_html($this->queueErrorResponse));
+                }
+                return $queue;
+                break;
+
+            default:
+                return esc_sql(sanitize_text_field($value));
+                break;
+        }
+    }
+
+
+
+
+    public function initialize()
+    {
+        $this->db->create_table();
+    }
+}

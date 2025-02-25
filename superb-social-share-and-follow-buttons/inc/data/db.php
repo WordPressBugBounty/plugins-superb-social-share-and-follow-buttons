@@ -29,8 +29,8 @@ final class spbsm_db
         $this->table_positionSettings = $this->db->prefix . "spbsm_position";
         $this->db_version = "1.8";
         $this->medias = include plugin_dir_path(__FILE__) . 'mediadata.php';
-        $this->sqlErrorResponse =  __("Couldn't save settings. Data couldn't be updated.", 'spbsm');
-        $this->successResponse =  __("Settings successfully saved!", 'spbsm');
+        $this->sqlErrorResponse =  __("Couldn't save settings. Data couldn't be updated.", 'superb-social-share-and-follow-buttons');
+        $this->successResponse =  __("Settings successfully saved!", 'superb-social-share-and-follow-buttons');
     }
 
 
