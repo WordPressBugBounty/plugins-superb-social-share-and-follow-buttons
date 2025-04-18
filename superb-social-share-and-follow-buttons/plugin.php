@@ -41,6 +41,7 @@ final class spbsm
         if (get_option('spbsm_db_version') != $this->db->db_version) {
             $this->initialize();
         }
+        add_action('init', array($this, 'localizeStrings'));
         add_action('admin_menu', array($this, 'add_menu_items'));
         add_action('admin_enqueue_scripts', array($this, 'backend_enqueue'));
         add_action('wp_enqueue_scripts', array($this, 'frontend_enqueue'));
@@ -50,7 +51,6 @@ final class spbsm
         add_shortcode('spbsm-follow-buttons', array($this, 'frontend_follow'));
         $this->setPositionSettingFilters();
         $this->pluginNameComment = '<!-- Superb Social Share and Follow Buttons -->';
-        $this->localizeStrings();
         add_action('admin_init', array($this, 'spbsm_spbThemesNotification'), 9);
 
         if (is_admin() && !class_exists('SuperbThemes\AddonsRecommender\NoticeController')) {
@@ -75,7 +75,7 @@ final class spbsm
         $notifications->Boot();
     }
 
-    private function localizeStrings()
+    public function localizeStrings()
     {
         $this->localizeFront();
         $this->localizeBack();

@@ -2,9 +2,9 @@
 Contributors: SuPlugins, Themeeverest
 Tags: social, media, share, follow, buttons
 Requires at least: 3.0.1
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.2.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -170,6 +170,9 @@ There is no shortcode for the floating share sidebar & floating follow icon side
 
 
 == Changelog ==
+= 1.2.1 =
+Localization fixes.
+
 = 1.2.0 =
 Various fixes and improvements.
 

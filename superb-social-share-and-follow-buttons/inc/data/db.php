@@ -29,11 +29,14 @@ final class spbsm_db
         $this->table_positionSettings = $this->db->prefix . "spbsm_position";
         $this->db_version = "1.8";
         $this->medias = include plugin_dir_path(__FILE__) . 'mediadata.php';
-        $this->sqlErrorResponse =  __("Couldn't save settings. Data couldn't be updated.", 'superb-social-share-and-follow-buttons');
-        $this->successResponse =  __("Settings successfully saved!", 'superb-social-share-and-follow-buttons');
+        add_action('init', array($this, 'localizeStrings'));
     }
 
-
+    public function localizeStrings()
+    {
+        $this->sqlErrorResponse =  esc_html__("Couldn't save settings. Data couldn't be updated.", 'superb-social-share-and-follow-buttons');
+        $this->successResponse =  esc_html__("Settings successfully saved!", 'superb-social-share-and-follow-buttons');
+    }
 
     //init
     public function create_table()
