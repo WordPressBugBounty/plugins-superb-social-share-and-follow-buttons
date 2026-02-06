@@ -6,8 +6,8 @@ if (is_plugin_active('superb-blocks/plugin.php')) {
     return;
 }
 
-$spba_plugin_url = admin_url('plugin-install.php?tab=plugin-information&plugin=superb-blocks&TB_iframe=true&width=772&height=550');
-$nonce_url = add_query_arg(
+$spbsm_spba_plugin_url = admin_url('plugin-install.php?tab=plugin-information&plugin=superb-blocks&TB_iframe=true&width=772&height=550');
+$spbsm_nonce_url = add_query_arg(
     array(
         'spbrec_enable_recommended' => wp_create_nonce('spbrec_action'),
     ),
@@ -22,7 +22,7 @@ $nonce_url = add_query_arg(
         <span class="st-sa-notification-wrapper-paragraph"><?php echo esc_html__("Install the SuperbThemes companion plugin now to enable every great feature we offer for our themes and the WordPress editor.", 'superb-social-share-and-follow-buttons'); ?></span>
         <?php if (!isset($_GET['spbrec_enable_recommended'])): ?>
             <span class="st-sa-notification-buttons-wrapper">
-                <a id="st-sa-notification-button-recommender-install-btn" href="<?php echo esc_url($nonce_url); ?>" class="st-sa-notification-buttons-green"><?php echo esc_html__("Install & Activate", 'superb-social-share-and-follow-buttons'); ?></a>
+                <a id="st-sa-notification-button-recommender-install-btn" href="<?php echo esc_url($spbsm_nonce_url); ?>" class="st-sa-notification-buttons-green"><?php echo esc_html__("Install & Activate", 'superb-social-share-and-follow-buttons'); ?></a>
                 <p id="st-sa-notification-button-recommender-install-notice"><?php echo esc_html__("Please wait a moment while we're getting the plugin ready for you.", 'superb-social-share-and-follow-buttons'); ?></p>
             </span>
         <?php else: ?>
@@ -31,7 +31,7 @@ $nonce_url = add_query_arg(
             <p><?php echo esc_html("Unfortunately WordPress was not able to automatically install the plugin for you.", 'superb-social-share-and-follow-buttons'); ?></p>
             <p><?php echo esc_html("You can view and install the plugin manually by clicking the button below:", 'superb-social-share-and-follow-buttons'); ?></p>
 
-            <a class="button button-large button-primary thickbox open-plugin-details-modal" href="<?php echo esc_url($spba_plugin_url); ?>">
+            <a class="button button-large button-primary thickbox open-plugin-details-modal" href="<?php echo esc_url($spbsm_spba_plugin_url); ?>">
                 <?php echo esc_html__("View Plugin", "superb-social-share-and-follow-buttons"); ?>
             </a>
         <?php endif; ?>

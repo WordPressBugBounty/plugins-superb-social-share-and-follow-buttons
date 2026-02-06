@@ -1,10 +1,13 @@
 <?php
-$settings = $this->db->get_settings(2);
-$positionSettings = $this->db->get_positionSettings(2);
-$currentsc = 'spbsm-follow-buttons';
-$currentButtons = __("Follow Buttons", 'superb-social-share-and-follow-buttons');
-$shareOrFollow = __("Follow Us On Social Media Text", 'superb-social-share-and-follow-buttons');
-if ($settings) { ?>
+
+defined('ABSPATH') || exit;
+
+$spbsm_settings = $this->db->get_settings(2);
+$spbsm_positionSettings = $this->db->get_positionSettings(2);
+$spbsm_currentsc = 'spbsm-follow-buttons';
+$spbsm_currentButtons = __("Follow Buttons", 'superb-social-share-and-follow-buttons');
+$spbsm_shareOrFollow = __("Follow Us On Social Media Text", 'superb-social-share-and-follow-buttons');
+if ($spbsm_settings) { ?>
 	<div class="spbsm-outer-wrapper">
 
 		<form id="spbsm-form" method="post" data-page="follow" name="spbsm-form" action="<?php echo esc_url(home_url()); ?>">
@@ -29,8 +32,8 @@ if ($settings) { ?>
 				</section>
 				<section id="content2">
 					<div class="spbsm-follow-wrapper">
-						<h2><?php echo esc_html(sprintf(/* translators: %s: button type */__('%s: Social Media', 'superb-social-share-and-follow-buttons'), $currentButtons)); ?></h2>
-						<p class="headline-description"><?php esc_html(sprintf(/* translators: %s: button type */__('Choose which social media networks you want to display %s for.', 'superb-social-share-and-follow-buttons'), strtolower($currentButtons))); ?></p>
+						<h2><?php echo esc_html(sprintf(/* translators: %s: button type */__('%s: Social Media', 'superb-social-share-and-follow-buttons'), $spbsm_currentButtons)); ?></h2>
+						<p class="headline-description"><?php esc_html(sprintf(/* translators: %s: button type */__('Choose which social media networks you want to display %s for.', 'superb-social-share-and-follow-buttons'), strtolower($spbsm_currentButtons))); ?></p>
 						<!-- Follow Options -->
 						<table id="media-selection-table" class="spbsm-follow-wrapper">
 							<thead>
@@ -42,16 +45,17 @@ if ($settings) { ?>
 							</thead>
 							<tbody>
 								<?php
-								foreach ($settings as &$item) {
-									if ($item && $item['class'] != 'email') {
-										$name = isset($item['alt-name']) ? $item['alt-name'] : $item['class'];
-										$link = isset($item['alt-link']) ? $item['alt-link'] : $item['class'];
+								foreach ($spbsm_settings as &$spbsm_item) {
+									if ($spbsm_item && $spbsm_item['class'] != 'email') {
+										$spbsm_name = isset($spbsm_item['alt-name']) ? $spbsm_item['alt-name'] : $spbsm_item['class'];
+										$spbsm_link = isset($spbsm_item['alt-link']) ? $spbsm_item['alt-link'] : $spbsm_item['class'];
+										$spbsm_follow_url = isset($spbsm_item['follow_url']) ? $spbsm_item['follow_url'] : '';
 										echo '<tr class="spbsm-follow-item">';
-										echo '<td><a href="#" class="spbsm-follow ' . esc_attr($item['class']) . '"></a>';
-										echo esc_html($name) . "\n</td>";
-										echo '<td><input type="text" spbsm="validate" placeholder="Add ' . esc_attr($name) . ' link.." data-site="' . esc_attr($link) . '" name="' . esc_attr($item['class']) . '[follow_url]" value="' . esc_url($item['follow_url']) . '"></td>';
-										echo '<td><input type="hidden" value="0" name="' . esc_attr($item['class']) . '[follow]"><input type="checkbox" name="' . esc_attr($item['class']) . '[follow]" ' . ($item['follow'] == 1 ? 'checked' : '') . '>';
-										echo '<input class="queue-value" type="hidden" value="' . esc_attr($item['follow_queue']) . '" name="' . esc_attr($item['class']) . '[follow_queue]" />';
+										echo '<td><a href="#" class="spbsm-follow ' . esc_attr($spbsm_item['class']) . '"></a>';
+										echo esc_html($spbsm_name) . "\n</td>";
+										echo '<td><input type="text" spbsm="validate" placeholder="Add ' . esc_attr($spbsm_name) . ' link.." data-site="' . esc_attr($spbsm_link) . '" name="' . esc_attr($spbsm_item['class']) . '[follow_url]" value="' . esc_url($spbsm_follow_url) . '"></td>';
+										echo '<td><input type="hidden" value="0" name="' . esc_attr($spbsm_item['class']) . '[follow]"><input type="checkbox" name="' . esc_attr($spbsm_item['class']) . '[follow]" ' . ($spbsm_item['follow'] == 1 ? 'checked' : '') . '>';
+										echo '<input class="queue-value" type="hidden" value="' . esc_attr($spbsm_item['follow_queue']) . '" name="' . esc_attr($spbsm_item['class']) . '[follow_queue]" />';
 										echo '<input class="spbsm_dragRow" style="cursor: move;" type="button" /></td>';
 										echo '</tr>';
 									}
@@ -70,7 +74,6 @@ if ($settings) { ?>
 		</form>
 		<div class="spbsm_discount">
 			<div>
-				<div class="spbsm_img_wrapper"><img width="70" height="70" src="<?php echo esc_url(plugin_dir_url(dirname(__FILE__)) . 'assets/img/icon-discount-15.png'); ?>"></div>
 				Use our limited time offer & get a <strong>discount</strong> on Superb Social Share Buttons Premium
 			</div>
 			<a target="_blank" href="https://superbthemes.com/plugins/social-media-share-and-follow-buttons/">Get Premium Version</a>

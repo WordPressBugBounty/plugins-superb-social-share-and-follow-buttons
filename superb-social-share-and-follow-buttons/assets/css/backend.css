@@ -1,11 +1,3 @@
-.current a {
-  color: #fff;
-  border-color: #6348e7;
-  background: #6348e7;
-  border-left-color: #6348e7 !important;
-  font-weight: 600;
-}
-
 .review-banner {
   box-shadow: 0px 5px 15px rgb(0 0 0 / 8%);
   padding: 3px 20px;
@@ -484,6 +476,150 @@ input#spbsm-save-btn {
 
 .spbsm-follow-item .threads:after {
   background-image: url(../img/threads-logo.svg);
+}
+
+.spbsm-follow-item .bluesky:after {
+  background-image: url(../img/bluesky.svg);
+}
+
+.spbsm-follow-item .cara:after {
+  background-image: url(../img/cara.svg);
+}
+
+.spbsm-follow-item .bilibili:after {
+  background-image: url(../img/bilibili.svg);
+}
+
+.spbsm-follow-item .buymeacoffee:after {
+  background-image: url(../img/buymeacoffee.svg);
+}
+
+.spbsm-follow-item .gitlab:after {
+  background-image: url(../img/gitlab.svg);
+}
+
+.spbsm-follow-item .gumroad:after {
+  background-image: url(../img/gumroad.svg);
+}
+
+.spbsm-follow-item .kakaotalk:after {
+  background-image: url(../img/kakaotalk.svg);
+}
+
+.spbsm-follow-item .kick:after {
+  background-image: url(../img/kick.svg);
+}
+
+.spbsm-follow-item .kofi:after {
+  background-image: url(../img/kofi.svg);
+}
+
+.spbsm-follow-item .letterboxd:after {
+  background-image: url(../img/letterboxd.svg);
+}
+
+.spbsm-follow-item .line:after {
+  background-image: url(../img/line.svg);
+}
+
+.spbsm-follow-item .linktree:after {
+  background-image: url(../img/linktree.svg);
+}
+
+.spbsm-follow-item .locals:after {
+  background-image: url(../img/locals.svg);
+}
+
+.spbsm-follow-item .notion:after {
+  background-image: url(../img/notion.svg);
+}
+
+.spbsm-follow-item .pixiv:after {
+  background-image: url(../img/pixiv.svg);
+}
+
+.spbsm-follow-item .rumble:after {
+  background-image: url(../img/rumble.svg);
+}
+
+.spbsm-follow-item .signal:after {
+  background-image: url(../img/signal.svg);
+}
+
+.spbsm-follow-item .slack:after {
+  background-image: url(../img/slack.svg);
+}
+
+.spbsm-follow-item .steam:after {
+  background-image: url(../img/steam.svg);
+}
+
+.spbsm-follow-item .substack:after {
+  background-image: url(../img/substack.svg);
+}
+
+.spbsm-follow-item .tripadvisor:after {
+  background-image: url(../img/tripadvisor.svg);
+}
+
+.spbsm-follow-item .wechat:after {
+  background-image: url(../img/wechat.svg);
+}
+
+.spbsm-follow-item .weibo:after {
+  background-image: url(../img/weibo.svg);
+}
+
+.spbsm-follow-item .amazon:after {
+  background-image: url(../img/amazon.svg);
+}
+
+.spbsm-follow-item .codepen:after {
+  background-image: url(../img/codepen.svg);
+}
+
+.spbsm-follow-item .lastfm:after {
+  background-image: url(../img/lastfm.svg);
+}
+
+.spbsm-follow-item .deviantart:after {
+  background-image: url(../img/deviantart.svg);
+}
+
+.spbsm-follow-item .discord:after {
+  background-image: url(../img/discord.svg);
+}
+
+.spbsm-follow-item .dropbox:after {
+  background-image: url(../img/dropbox.svg);
+}
+
+.spbsm-follow-item .etsy:after {
+  background-image: url(../img/etsy.svg);
+}
+
+.spbsm-follow-item .meetup:after {
+  background-image: url(../img/meetup.svg);
+}
+
+.spbsm-follow-item .patreon:after {
+  background-image: url(../img/patreon.svg);
+}
+
+.spbsm-follow-item .soundcloud:after {
+  background-image: url(../img/soundcloud.svg);
+}
+
+.spbsm-follow-item .vk:after {
+  background-image: url(../img/vk.svg);
+}
+
+.spbsm-follow-item .wordpress:after {
+  background-image: url(../img/wordpress.svg);
+}
+
+.spbsm-follow-item .yelp:after {
+  background-image: url(../img/yelp.svg);
 }
 
 #media-selection-table {

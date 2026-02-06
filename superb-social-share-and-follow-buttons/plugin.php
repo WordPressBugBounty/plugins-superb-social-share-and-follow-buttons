@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 final class spbsm
 {
     private $version;
@@ -51,28 +53,11 @@ final class spbsm
         add_shortcode('spbsm-follow-buttons', array($this, 'frontend_follow'));
         $this->setPositionSettingFilters();
         $this->pluginNameComment = '<!-- Superb Social Share and Follow Buttons -->';
-        add_action('admin_init', array($this, 'spbsm_spbThemesNotification'), 9);
 
         if (is_admin() && !class_exists('SuperbThemes\AddonsRecommender\NoticeController')) {
             require_once $this->base_dir . '/recommender/recommender.php';
             \SuperbThemes\AddonsRecommender\NoticeController::init();
         }
-    }
-    public function spbsm_spbThemesNotification()
-    {
-        $notifications = include($this->base_dir . '/admin_notification/Autoload.php');
-        $options = array("delay" => "+2 days");
-        $notifications->Add("spbsm_admin_notification", "Unlock All Features with Social Media Buttons Premium", "
-		
-            Take advantage of the up to <span style='font-weight:bold;'>40% discount</span> and unlock all features for Superb Social Media Buttons Premium. 
-            The discount is only available for a limited time.
-    
-            <div>
-            <a style='margin-bottom:15px;' class='button button-large button-secondary' target='_blank' href='https://superbthemes.com/plugins/social-media-share-and-follow-buttons/'>Read more</a> <a style='margin-bottom:15px;' class='button button-large button-primary' target='_blank' href='https://superbthemes.com/plugins/social-media-share-and-follow-buttons/'>Buy now</a>
-            </div>
-    
-            ", "info", $options);
-        $notifications->Boot();
     }
 
     public function localizeStrings()
@@ -175,14 +160,17 @@ final class spbsm
             $logo = (isset($logo) && !empty($logo) && $logo !== false && is_array($logo)) ? $logo[0] : '';
             $thumb = get_the_post_thumbnail_url();
             $thumb = isset($thumb) && !empty($thumb) ? $thumb : $logo;
+
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             $excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', get_the_ID()));
             $excerpt = isset($excerpt) && !empty($excerpt) ? $excerpt : get_bloginfo("description");
             ob_start();
             echo '<div class="spbsm-sharebuttons-output-wrapper">';
             echo wp_kses_post($this->pluginNameComment);
-            echo '<div class="spbsm-output-textstring">' . esc_attr($this->defaultShareText) . '</div>';
+            echo '<div class="spbsm-output-textstring">' . esc_html($this->defaultShareText) . '</div>';
             echo '<div class="spbsm-button-wrapper-flat">';
             foreach ($buttons as &$button) {
+                if (!isset($button['share'])) continue;
                 $name = isset($button['alt-name']) ? $button['alt-name'] : $button['class'];
                 $link = str_replace(
                     array('{url}', '{title}', '{img}', '{description}'),
@@ -190,7 +178,7 @@ final class spbsm
                     $button['share']
                 );
                 echo '<span class="spbsm-share-' . esc_attr($button['class']) . '"><a href="' . esc_url($link) . '" rel="nofollow" target="_blank">' . wp_kses($button['icon'], $this->getAllowedHTML());
-                echo esc_attr($name);
+                echo esc_html($name);
                 echo '</a></span>';
             }
             echo '</div></div>';
@@ -280,7 +268,7 @@ final class spbsm
             ob_start();
             echo '<div class="spbsm-followbuttons-output-wrapper">';
             echo wp_kses_post($this->pluginNameComment);
-            echo '<div class="spbsm-output-textstring">' . esc_attr($this->defaultFollowText) . '</div>';
+            echo '<div class="spbsm-output-textstring">' . esc_html($this->defaultFollowText) . '</div>';
             echo '<div class="spbsm-button-wrapper-flat">';
             foreach ($buttons as &$button) {
                 if ($button['class'] == 'email') {

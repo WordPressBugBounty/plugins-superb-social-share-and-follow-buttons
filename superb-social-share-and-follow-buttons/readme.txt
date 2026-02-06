@@ -1,12 +1,12 @@
 === Superb Social Media Share Buttons and Follow Buttons ===
 Contributors: SuPlugins, Themeeverest
 Tags: social, media, share, follow, buttons
-Requires at least: 3.0.1
-Tested up to: 6.8
-Requires PHP: 5.2.4
-Stable tag: 1.2.1
+Requires at least: 4.9
+Tested up to: 6.9
+Requires PHP: 5.6
+Stable tag: 1.2.5
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Social Media Share Buttons & Follow Buttons. Social Share Icons. 25+ Social networks. Icon & Button Shortcodes. Floating Sidebar.
 
@@ -21,24 +21,27 @@ Social share icons are easily identifiable for followers, viewers and clients. Y
 
 
 == The Following Social Media Buttons Are Available == 
+
+= Follow Buttons =
 <ul>
-	<li>X (Twitter) Share & Follow Button / icon</li>
-	<li>Facebook Share & Follow Button / icon</li>
-	<li>Instagram Share & Follow Button / icon</li>
-	<li>Pinterest Share & Follow Button / icon</li>
-	<li>Linkedin Share & Follow Button / icon</li>
-	<li>Tumblr Share & Follow Button / icon</li>
-	<li>Reddit Share & Follow Button / icon</li>
-	<li>WhatsApp Share & Follow Button / icon</li>
-	<li>Telegram Share & Follow Button / icon</li>
-	<li>Mastodon Share & Follow Button / icon</li>
-	<li>Tiktok Follow Button / icon</li>
+	<li>X (Twitter) Follow Button / icon</li>
+	<li>Facebook Follow Button / icon</li>
+	<li>Instagram Follow Button / icon</li>
+	<li>YouTube Follow Button / icon</li>
+	<li>Pinterest Follow Button / icon</li>
+	<li>LinkedIn Follow Button / icon</li>
 	<li>Flickr Follow Button / icon</li>
-	<li>Github Follow Button / icon</li>
+	<li>GitHub Follow Button / icon</li>
 	<li>Snapchat Follow Button / icon</li>
-	<li>Youtube Follow Button / icon</li>
+	<li>Tumblr Follow Button / icon</li>
+	<li>Vimeo Follow Button / icon</li>
+	<li>Foursquare Follow Button / icon</li>
+	<li>Behance Follow Button / icon</li>
+	<li>Medium Follow Button / icon</li>
+	<li>Reddit Follow Button / icon</li>
+	<li>Dribbble Follow Button / icon</li>
 	<li>Twitch Follow Button / icon</li>
-	<li>Threads Follow Button / icon</li>
+	<li>WhatsApp Follow Button / icon</li>
 	<li>Spotify Follow Button / icon</li>
 	<li>Bandcamp Follow Button / icon</li>
 	<li>Apple Music Follow Button / icon</li>
@@ -46,13 +49,64 @@ Social share icons are easily identifiable for followers, viewers and clients. Y
 	<li>Apple Books Follow Button / icon</li>
 	<li>Appstore Follow Button / icon</li>
 	<li>Google Play Follow Button / icon</li>
-	<li>Vimeo Follow Button / icon</li>
-	<li>Dribble Follow Button / icon</li>
-	<li>Foursquare Follow Button / icon</li>
-	<li>Behance Follow Button / icon</li>
-	<li>Medium Follow Button / icon</li>
+	<li>TikTok Follow Button / icon</li>
+	<li>Telegram Follow Button / icon</li>
+	<li>Mastodon Follow Button / icon</li>
 	<li>Goodreads Follow Button / icon</li>
+	<li>Threads Follow Button / icon</li>
+	<li>Bluesky Follow Button / icon</li>
+	<li>Cara Follow Button / icon</li>
+	<li>Bilibili Follow Button / icon</li>
+	<li>Buy Me a Coffee Follow Button / icon</li>
+	<li>GitLab Follow Button / icon</li>
+	<li>Gumroad Follow Button / icon</li>
+	<li>KakaoTalk Follow Button / icon</li>
+	<li>Kick Follow Button / icon</li>
+	<li>Ko-fi Follow Button / icon</li>
+	<li>Letterboxd Follow Button / icon</li>
+	<li>LINE Follow Button / icon</li>
+	<li>Linktree Follow Button / icon</li>
+	<li>Locals Follow Button / icon</li>
+	<li>Notion Follow Button / icon</li>
+	<li>Pixiv Follow Button / icon</li>
+	<li>Rumble Follow Button / icon</li>
+	<li>Signal Follow Button / icon</li>
+	<li>Slack Follow Button / icon</li>
+	<li>Steam Follow Button / icon</li>
+	<li>Substack Follow Button / icon</li>
+	<li>TripAdvisor Follow Button / icon</li>
+	<li>WeChat Follow Button / icon</li>
+	<li>Weibo Follow Button / icon</li>
+	<li>Amazon Follow Button / icon</li>
+	<li>CodePen Follow Button / icon</li>
+	<li>Last.fm Follow Button / icon</li>
+	<li>DeviantArt Follow Button / icon</li>
+	<li>Discord Follow Button / icon</li>
+	<li>Dropbox Follow Button / icon</li>
+	<li>Etsy Follow Button / icon</li>
+	<li>Meetup Follow Button / icon</li>
+	<li>Patreon Follow Button / icon</li>
+	<li>SoundCloud Follow Button / icon</li>
+	<li>VK Follow Button / icon</li>
+	<li>WordPress Follow Button / icon</li>
+	<li>Yelp Follow Button / icon</li>
+</ul>
+
+= Share Buttons =
+<ul>
+	<li>LINE Share Button / icon</li>
+	<li>X (Twitter) Share Button / icon</li>
+	<li>Facebook Share Button / icon</li>
+	<li>Pinterest Share Button / icon</li>
+	<li>LinkedIn Share Button / icon</li>
+	<li>Tumblr Share Button / icon</li>
+	<li>Reddit Share Button / icon</li>
 	<li>Email Share Button / icon</li>
+	<li>WhatsApp Share Button / icon</li>
+	<li>Telegram Share Button / icon</li>
+	<li>Mastodon Share Button / icon</li>
+	<li>Bluesky Share Button / icon</li>
+	<li>Weibo Share Button / icon</li>
 </ul>
 
 == Other Features ==
@@ -170,6 +224,9 @@ There is no shortcode for the floating share sidebar & floating follow icon side
 
 
 == Changelog ==
+= 1.2.5 =
+Added tons of new buttons including Substack, Bilibili, VK, KakaoTalk, Weibo, LINE, WeChat, Locals, Ko-fi, Rumble, Kick and more!
+
 = 1.2.1 =
 Localization fixes.
 

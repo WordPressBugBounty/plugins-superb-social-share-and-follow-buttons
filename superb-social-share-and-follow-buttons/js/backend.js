@@ -52,7 +52,7 @@ jQuery(function ($) {
           } else {
             spbsm_showMsg(result.msg, true);
             initialSettings = convertSerializedArrayToHash(
-              form.serializeArray()
+              form.serializeArray(),
             );
           }
         },
@@ -73,7 +73,7 @@ jQuery(function ($) {
         {
           width: "90%",
         },
-        675
+        675,
       );
       clearTimeout(spbsm_msgTimer);
       spbsm_msgTimer = setTimeout(function () {
@@ -86,7 +86,7 @@ jQuery(function ($) {
             $(this).hide();
             $(this).html("");
             $(this).removeClass("success");
-          }
+          },
         );
       }, 5000);
       $("#spbsm-save-btn").prop("disabled", false);
@@ -107,9 +107,22 @@ jQuery(function ($) {
               !value.includes($(this).attr("data-site") + ".co/") &&
               !value.includes($(this).attr("data-site") + ".io/") &&
               !value.includes($(this).attr("data-site") + ".social/") &&
+              !value.includes($(this).attr("data-site") + ".org/") &&
+              !value.includes($(this).attr("data-site") + ".info/") &&
+              !value.includes($(this).attr("data-site") + ".me/") &&
+              !value.includes($(this).attr("data-site") + ".app/") &&
+              !value.includes($(this).attr("data-site") + ".fm/") &&
+              !value.includes($(this).attr("data-site") + ".gg/") &&
               !value.includes("/@") &&
               !value.includes("wa.me/") &&
-              !value.includes("t.me/"))) &&
+              !value.includes("t.me/") &&
+              !value.includes("linktr.ee/") &&
+              !value.includes("line.me/") &&
+              !value.includes("ko-fi.com/") &&
+              !value.includes("kakao.com/") &&
+              !value.includes("steampowered.com/") &&
+              !value.includes("steamcommunity.com/") &&
+              !value.includes("weixin.qq.com/"))) &&
           !value.includes("x.com/")
         ) {
           $(this).css("border", "2px solid red");
@@ -129,7 +142,7 @@ jQuery(function ($) {
             " " +
             (errors > 1
               ? msgs.fieldErrorMultiple + msgs.fieldErrorExpected
-              : msgs.fieldErrorSingle + msgs.fieldErrorExpected)
+              : msgs.fieldErrorSingle + msgs.fieldErrorExpected),
         );
       return errors <= 0 ? true : false;
     }

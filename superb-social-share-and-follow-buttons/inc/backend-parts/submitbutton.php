@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || exit;
+?>
 <div class="save-wrapper" style="position:relative">
 	<input id="spbsm-save-btn" type="submit" value="<?php echo esc_attr__('Save Settings', 'superb-social-share-and-follow-buttons'); ?>" />
 

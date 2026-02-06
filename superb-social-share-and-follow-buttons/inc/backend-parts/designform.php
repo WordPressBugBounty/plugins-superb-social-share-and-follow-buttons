@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || exit;
+?>
 <div class="spbsm-follow-wrapper">
 	<div class="premium-section-only">
 		<a href="<?php echo esc_url('https://superbthemes.com/plugins/social-media-share-and-follow-buttons/') ?>" target="_blank" class="premium-section-only-inner">

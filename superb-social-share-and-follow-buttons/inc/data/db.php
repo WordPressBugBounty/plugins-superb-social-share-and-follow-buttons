@@ -1,4 +1,7 @@
 <?php
+
+defined('ABSPATH') || exit;
+
 final class spbsm_db
 {
     private $db;
@@ -27,7 +30,7 @@ final class spbsm_db
         $this->db = $wpdb;
         $this->table_settings = $this->db->prefix . "spbsm";
         $this->table_positionSettings = $this->db->prefix . "spbsm_position";
-        $this->db_version = "1.8";
+        $this->db_version = "2.1";
         $this->medias = include plugin_dir_path(__FILE__) . 'mediadata.php';
         add_action('init', array($this, 'localizeStrings'));
     }
@@ -215,19 +218,14 @@ final class spbsm_db
         try {
             $this->db->query('start transaction;');
             foreach ($this->getMediaList(1) as &$item) {
-                $this->db->query(
-                    "UPDATE `$this->table_settings` SET 
-                `share` = " . $data[$item['class']]['share'] . ", 
-                `share_queue` = " . $data[$item['class']]['share_queue'] . " 
-        		WHERE `id`=" . intval($item['id']) . ";"
-                );
+                $this->db->update($this->table_settings, array('share' => $data[$item['class']]['share'], 'share_queue' => $data[$item['class']]['share_queue']), array('id' => intval($item['id'])));
             }
 
             foreach ($data['general'] as $key => $value) {
-                $this->db->query("UPDATE `$this->table_positionSettings` SET `" . $key . "` = " . $value . " WHERE `id`=1; ");
+                $this->db->update($this->table_positionSettings, array(esc_sql($key) => $value), array('id' => 1));
             }
 
-            $this->db->query("UPDATE `$this->table_positionSettings` SET `floatingSidebar` = " . $data['floatingSidebar'] . " WHERE `id`=1; ");
+            $this->db->update($this->table_positionSettings, array('floatingSidebar' => $data['floatingSidebar']), array('id' => 1));
 
             if ($this->db->last_error != '') {
                 $this->db->query("rollback;");
@@ -252,20 +250,14 @@ final class spbsm_db
                 $active = empty($url) ? 0 : $data[$item['class']]['follow'];
                 $queue = $data[$item['class']]['follow_queue'];
                 $queue = $queue == null ? 0 : $queue;
-                $this->db->query(
-                    "UPDATE `$this->table_settings` SET 
-                    `follow` = " . $active . ", 
-                    `follow_url` = '" . $url . "', 
-                    `follow_queue` = " . $queue . " 
-                    WHERE `id`=" . intval($item['id']) . ";"
-                );
+                $this->db->update($this->table_settings, array('follow' => $active, 'follow_url' => $url, 'follow_queue' => $queue), array('id' => intval($item['id'])));
             }
 
             foreach ($data['general'] as $key => $value) {
-                $this->db->query("UPDATE `$this->table_positionSettings` SET `" . esc_sql($key) . "` = " . $value . " WHERE `id`=2; ");
+                $this->db->update($this->table_positionSettings, array(esc_sql($key) => $value), array('id' => 2));
             }
 
-            $this->db->query("UPDATE `$this->table_positionSettings` SET `floatingSidebar` = " . $data['floatingSidebar'] . " WHERE `id`=2; ");
+            $this->db->update($this->table_positionSettings, array('floatingSidebar' => $data['floatingSidebar']), array('id' => 2));
 
             if ($this->db->last_error != '') {
                 $this->db->query("rollback;");
@@ -282,8 +274,7 @@ final class spbsm_db
     ///rollback plugin
     public function drop_table()
     {
-        $query = "DROP TABLE $this->table_settings;
-                  DROP TABLE $this->table_positionSettings";
+        $query = "DROP TABLE IF EXISTS $this->table_settings, $this->table_positionSettings";
         return $this->db->query($query);
     }
 }

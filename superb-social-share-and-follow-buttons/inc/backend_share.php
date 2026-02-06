@@ -1,10 +1,13 @@
 <?php
-$settings = $this->db->get_settings(1);
-$positionSettings = $this->db->get_positionSettings(1);
-$currentsc = 'spbsm-share-buttons';
-$currentButtons = esc_html__("Share Buttons", 'superb-social-share-and-follow-buttons');
-$shareOrFollow = esc_html__("Share On Social Media Text", 'superb-social-share-and-follow-buttons');
-if ($settings) { ?>
+
+defined('ABSPATH') || exit;
+
+$spbsm_settings = $this->db->get_settings(1);
+$spbsm_positionSettings = $this->db->get_positionSettings(1);
+$spbsm_currentsc = 'spbsm-share-buttons';
+$spbsm_currentButtons = esc_html__("Share Buttons", 'superb-social-share-and-follow-buttons');
+$spbsm_shareOrFollow = esc_html__("Share On Social Media Text", 'superb-social-share-and-follow-buttons');
+if ($spbsm_settings) { ?>
 	<div class="spbsm-outer-wrapper">
 
 		<form id="spbsm-form" method="post" data-page="share" name="spbsm-form" action="<?php echo esc_url(home_url()) ?>">
@@ -29,8 +32,8 @@ if ($settings) { ?>
 				</section>
 				<section id="content2">
 					<div class="spbsm-follow-wrapper">
-						<h2><?php echo esc_html(sprintf(/* translators: %s: button type */__('%s: Social Media', 'superb-social-share-and-follow-buttons'), $currentButtons)); ?></h2>
-						<p class="headline-description"><?php esc_html(sprintf(/* translators: %s: button type */__('Choose which social media networks you want to display %s for.', 'superb-social-share-and-follow-buttons'), strtolower($currentButtons))); ?></p>
+						<h2><?php echo esc_html(sprintf(/* translators: %s: button type */__('%s: Social Media', 'superb-social-share-and-follow-buttons'), $spbsm_currentButtons)); ?></h2>
+						<p class="headline-description"><?php esc_html(sprintf(/* translators: %s: button type */__('Choose which social media networks you want to display %s for.', 'superb-social-share-and-follow-buttons'), strtolower($spbsm_currentButtons))); ?></p>
 						<!-- Follow Options -->
 						<table id="media-selection-table" class="spbsm-follow-wrapper">
 							<thead>
@@ -41,14 +44,14 @@ if ($settings) { ?>
 							</thead>
 							<tbody>
 								<?php
-								foreach ($settings as &$item) {
-									$name = isset($item['alt-name']) ? $item['alt-name'] : $item['class'];
+								foreach ($spbsm_settings as &$spbsm_item) {
+									$spbsm_name = isset($spbsm_item['alt-name']) ? $spbsm_item['alt-name'] : $spbsm_item['class'];
 									echo '<tr class="spbsm-follow-item">';
-									echo '<td><a href="#" class="spbsm-follow ' . esc_attr($item['class']) . '"></a>';
-									echo esc_html($name) . "\n</td>";
-									echo '<td><input type="hidden" value="0" name="' . esc_attr($item['class']) . '[share]">';
-									echo '<input type="checkbox" name="' . esc_attr($item['class']) . '[share]" ' . ($item['share'] == 1 ? 'checked' : '') . '>';
-									echo '<input class="queue-value" type="hidden" value="' . esc_attr($item['share_queue']) . '" name="' . esc_attr($item['class']) . '[share_queue]" />';
+									echo '<td><a href="#" class="spbsm-follow ' . esc_attr($spbsm_item['class']) . '"></a>';
+									echo esc_html($spbsm_name) . "\n</td>";
+									echo '<td><input type="hidden" value="0" name="' . esc_attr($spbsm_item['class']) . '[share]">';
+									echo '<input type="checkbox" name="' . esc_attr($spbsm_item['class']) . '[share]" ' . ($spbsm_item['share'] == 1 ? 'checked' : '') . '>';
+									echo '<input class="queue-value" type="hidden" value="' . esc_attr($spbsm_item['share_queue']) . '" name="' . esc_attr($spbsm_item['class']) . '[share_queue]" />';
 									echo '<input class="spbsm_dragRow" style="cursor: move;" type="button" /></td>';
 									echo '</tr>';
 								}
@@ -68,7 +71,6 @@ if ($settings) { ?>
 
 		<div class="spbsm_discount">
 			<div>
-				<div class="spbsm_img_wrapper"><img width="70" height="70" src="<?php echo esc_url(plugin_dir_url(dirname(__FILE__)) . 'assets/img/icon-discount-15.png'); ?>"></div>
 				Use our limited time offer & get a <strong>discount</strong> on Superb Social Share Buttons Premium
 			</div>
 			<a target="_blank" href="https://superbthemes.com/plugins/social-media-share-and-follow-buttons/">Get Premium Version</a>
